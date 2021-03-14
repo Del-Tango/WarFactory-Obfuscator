@@ -90,7 +90,6 @@ def fetch_number_of_lines_in_file(file_path):
         )
         return 0
 
-# SETTERS
 # CHECKERS
 
 def check_directory_exists(dir_path):
@@ -489,8 +488,6 @@ def handle_python_file_obfuscate(file_path, parser, scrambler):
         '_____________________________________________________________________'
         '___________\n'.format(file_path)
     )
-
-
     parser.set_dazzle_file_path(dazzle_report_file_name)
     stdout_msg('\n[ {} ]: Scanning file ({})...\n'.format(
         SCRIPT_NAME, file_path

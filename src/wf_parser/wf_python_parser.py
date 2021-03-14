@@ -896,10 +896,6 @@ class WFPythonParser(object):
         )
         if nested.get('type'):
             del nested['type']
-        # TODO - To be continued...
-#       details[check].update({
-#           nested.get('line') if check == 'comment' else nested.get('name'): nested
-#       })
         if check == 'comment':
             details['comments'].update({
                 nested.get('line'): nested
@@ -1193,52 +1189,4 @@ class WFPythonParser(object):
                 '[ ERROR ]: {} Details: ({})'.format(msg, details)
             )
         return False
-
-
-if __name__ == '__main__':
-
-    parser = WFPythonParser(
-        file_path='/home/SMx093pk01/WarFactory/src/wf_python_parser/wf_python_parser.py',
-        silent=False, silent_warnings=False, silent_errors=False
-    )
-    parser.scan()
-    parser.display_formatted_content()
-
-#   print(parser)
-#   parser.cleanup()
-#   parser.display_formatted_content()
-
-# CODE DUMP
-
-#   def filter_function_arguments_from_file_line(self, file_line):
-#       log.debug('DEPRECATED')
-#       builder, arguments, parenthesis = '', list(), 0
-#       start_build, stop_build = False, False
-#       for character in file_line:
-#           if character == '(':
-#               parenthesis += 1
-#               if not start_build:
-#                   start_build = True
-#                   continue
-#           if character == ')':
-#               parenthesis -= 1
-#               if parenthesis is 1:
-#                   stop_build = True
-#                   continue
-#           if stop_build:
-#               break
-#           if start_build:
-#               builder += character
-#       segmented_args = [word.strip() for word in builder.split(',')]
-#       for arg in segmented_args:
-#           # [ NOTE ]: Ignores self and wildcard arguments (self, 'cls', *args, **kwargs)
-#           if arg == 'self' or arg == 'cls' or arg[0] == '*':
-#               continue
-#           # [ NOTE ]: Handle keyword argument
-#           if '=' in arg:
-#               tmp = arg.split('=')[0].strip()
-#               arguments.append(tmp)
-#               continue
-#           arguments.append(arg)
-#       return arguments
 
