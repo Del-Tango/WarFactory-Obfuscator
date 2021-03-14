@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+# Regards, the Alveare Solutions society.
+#
+declare -A WF_DEFAULT
+declare -A WF_LIB
+declare -A WF_SOURCE
+declare -A WF_IMPORTS
+declare -A WF_PAYLOAD
+declare -A WF_CARGO
+
+# [ NOTE ]: Absolute directory path the current file is in.
+WF_DIRECTORY="$(
+    cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd
+)"
+CONF_FILE_PATH="$WF_DIRECTORY/conf/war-factory.conf"
+
+if [ ! -f "$CONF_FILE_PATH" ]; then
+    echo "[ WARNING ]: Config file ($CONF_FILE_PATH) not found."
+    return 1
+else
+    source "$CONF_FILE_PATH"
+fi
+
+for script in ${!WF_SOURCE[@]}; do
+    source ${WF_SOURCE[$script]}
+    if [ $? -ne 0 ]; then
+        echo "[ NOK ]: Something went wrong."\
+            "Could not load ($script) script."
+    else
+        echo "[ OK ]: Successfully loaded ($script) script."
+    fi
+done
+
+for library in ${!WF_LIB[@]}; do
+    source ${WF_LIB[$library]}
+    if [ $? -ne 0 ]; then
+        echo "[ NOK ]: Something went wrong."\
+            "Could not load ($library) library."
+    else
+        echo "[ OK ]: Successfully loaded ($library) library."
+    fi
+done
+
+# MISCELLANEOUS
+
+function init_war_factory () {
+    war_factory_project_setup
+    display_war_factory_banner
+    init_menu 'MainController'
+}
+
+init_war_factory
