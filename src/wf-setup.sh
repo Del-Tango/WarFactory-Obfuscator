@@ -145,12 +145,11 @@ function setup_war_room_menu_option_back () {
 
 # MAIN MENU SETUP
 
-# TODO - Uncomment
 function setup_main_menu_controller () {
     setup_main_menu_option_war_factory
     setup_main_menu_option_log_viewer
     setup_main_menu_option_control_panel
-#   setup_main_menu_option_self_destruct
+    setup_main_menu_option_self_destruct
     setup_main_menu_option_back
     done_msg "${CYAN}$MAIN_CONTROLLER_LABEL${RESET} controller option"\
         "binding complete."
