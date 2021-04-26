@@ -145,10 +145,6 @@ class WFPythonParser(object):
         log.debug('')
         return self.dazzle_report
 
-    def check_file_exists(self, file_path):
-        log.debug('')
-        return os.path.isfile(file_path)
-
     def check_file_line_contains(self, line):
         log.debug('')
         checkers = {
@@ -164,10 +160,10 @@ class WFPythonParser(object):
             contains.append(item)
         if len(contains) > 1:
             if 'function' in contains and 'variable' in contains \
-                    and len(contains) is 2:
+                    and len(contains) == 2:
                 return 'function'
             if 'class' in contains and 'variable' in contains \
-                    and len(contains) is 2:
+                    and len(contains) == 2:
                 return 'class'
         return False if not contains else contains[0]
 
@@ -513,7 +509,7 @@ class WFPythonParser(object):
                 break
             if '=' in word and len(seen_words) in (0, 1):
                 variable_found = True
-                variable_index = index-1 if len(word) is 1 else index
+                variable_index = index-1 if len(word) == 1 else index
                 for character in words[variable_index]:
                     if character == '=':
                         break
@@ -669,7 +665,7 @@ class WFPythonParser(object):
         function_body, stop_line = details['body'], start_line_number
         content = details['content']
         for index in range(len(following_lines)):
-            if index is 0:
+            if index == 0:
                 stop_line += 1
                 continue
             line = following_lines[index]
@@ -699,7 +695,7 @@ class WFPythonParser(object):
         class_body, stop_line = details['body'], start_line_number
         content = details['content']
         for index in range(len(following_lines)):
-            if index is 0:
+            if index == 0:
                 stop_line += 1
                 continue
             line = following_lines[index]
@@ -772,13 +768,7 @@ class WFPythonParser(object):
             successes.update({line_number: line})
             if handle.get('stop_line', line_number) > line_number:
                 offset = handle['stop_line'] - line_number - 1
-
-
-
-        # TODO - Handle dazzle reports here
         self.handle_dazzle_report(file_path, self.content, file_lines)
-
-
         self.stdout_msg(
             '\n[ DONE ]: Processed ({}/{}) lines from file ({}). '
             '({}) lines skipped.'.format(
@@ -1189,4 +1179,3 @@ class WFPythonParser(object):
                 '[ ERROR ]: {} Details: ({})'.format(msg, details)
             )
         return False
-
