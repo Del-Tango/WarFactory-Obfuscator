@@ -3,6 +3,7 @@
 cat<<EOF
 # MachineDialogue - (SETUP)
 
+load_apt_dependencies                   <package1> <package2> ...
 setup_menu_controller_action_option     <label> <menu-option> <function-name>
 setup_menu_controller_menu_option       <label> <menu-option> <target-label>
 load_safety                             <flag value-(on | off)>

@@ -4,6 +4,127 @@
 #
 # ACTIONS
 
+function action_display_available_wireless_access_points () {
+    echo; info_msg "Discovering wireless network access points..."
+    display_available_wireless_access_points
+    if [ $? -ne 0 ]; then
+        nok_msg "Something went wrong."\
+            "Could not display wireless access points."
+        return 1
+    fi
+    return 0
+}
+
+function action_disconnect_from_wireless_access_point () {
+    echo; info_msg "You are about to disconnect from wireless network."
+    fetch_ultimatum_from_user "Are you sure about this? ${YELLOW}Y/N${RESET}"
+    echo; if [ $? -ne 0 ]; then
+        info_msg "Aborting action."
+        return 1
+    fi
+    check_safety_on
+    if [ $? -eq 0 ]; then
+        warning_msg "Safety is ${GREEN}ON${RESET}."\
+            "Connection with wireless access point will not be performed."
+        return 2
+    fi
+    disconnect_from_wireless_access_point
+    if [ $? -ne 0 ]; then
+        nok_msg "Something went wrong."\
+            "Could not disconnect from wireless access point."
+        return 3
+    else
+        ok_msg "Successfully disconected from wireless access point!"
+    fi
+    return 0
+}
+
+function action_connect_to_wireless_access_point () {
+    echo; symbol_msg "${BLUE}$SCRIPT_NAME${RESET}" \
+        "${CYAN}Wireless Network Gateways (Radios)${RESET}"
+    info_msg "Discovering wireless network access points..."; echo
+    TARGET_ESSID=`fetch_wireless_essid_from_user`
+    if [ $? -ne 0 ]; then
+        return 1
+    fi
+    SANITIZED=`echo $TARGET_ESSID | sed 's/\"//g'`
+    check_essid_password_protected "$SANITIZED"
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ]; then
+        PASSWORD=`fetch_wireless_password_from_user "$SANITIZED"`
+        echo "
+        "; check_safety_on
+        if [ $? -eq 0 ]; then
+            warning_msg "Safety is ${GREEN}ON${RESET}."\
+                "Connection with wireless access point will not be performed."
+        fi
+        connect_to_wireless_access_point "password-on" "$SANITIZED" "$PASSWORD"
+        if [ $? -ne 0 ]; then
+            warning_msg "Something went wrong."\
+                "Could not connect to protected wireless access point"\
+                "${RED}$SANITIZED${RESET}."
+            return 1
+        fi
+    elif [ $EXIT_CODE -eq 1 ]; then
+        echo; check_safety_on
+        if [ $? -eq 0 ]; then
+            warning_msg "Safety is ${GREEN}ON${RESET}."\
+                "Connection with wireless access point will not be performed."
+            return 1
+        fi
+        connect_to_wireless_access_point "password-off" "$SANITIZED" "$PASSWORD"
+        if [ $? -ne 0 ]; then
+            warning_msg "Something went wrong."\
+                "Could not connect to unprotected wireless access point"\
+                "${RED}$SANITIZED${RESET}."
+            return 1
+        fi
+    else
+        warning_msg "Could not determine if wireless network"\
+            "${RED}$SANITIZED${RESET} is password protected."
+        return 1
+    fi
+    return 0
+}
+
+function action_install_dependencies () {
+    PACKAGE_MANAGERS=( $@ )
+    echo
+    fetch_ultimatum_from_user "${YELLOW}Are you sure about this? Y/N${RESET}"
+    if [ $? -ne 0 ]; then
+        echo; info_msg "Aborting action."
+        return 1
+    fi
+    if [ ${#PACKAGE_MANAGERS[@]} -eq 0 ]; then
+        PACKAGE_MANAGERS=( 'apt' 'pip' 'pip3' )
+    fi
+    for manager in ${PACKAGE_MANAGERS[@]}; do
+        case "$manager" in
+            'apt')
+                apt_install_dependencies
+                ;;
+            'pip')
+                pip_install_dependencies
+                ;;
+            'pip3')
+                pip3_install_dependencies
+                ;;
+        esac
+    done
+    return $?
+}
+
+function action_help () {
+    echo; info_msg "Select cargo script to view instructions for:
+    "
+    CLI_CARGO=`fetch_selection_from_user "Help" ${!MD_CARGO[@]}`
+    if [ $? -ne 0 ]; then
+        return 1
+    fi
+    ${MD_CARGO[$CLI_CARGO]} --help
+    return $?
+}
+
 function action_create_checksum_of_file () {
     local FILE_PATH="$1"
     FILE_CHECKSUM=`create_file_checksum "$FILE_PATH"`
@@ -57,89 +178,6 @@ function action_compare_checksum_of_file () {
     echo; ok_msg "It's a match! (${YELLOW}$FILE_PATH${RESET})"\
         "file ${CYAN}${MD_DEFAULT['checksum']}${RESET}"\
         "checksum is (${GREEN}$CHECKSUM${RESET})."
-    return 0
-}
-
-function action_disconnect_from_wireless_access_point () {
-    echo; info_msg "You are about to disconnect from wireless network."
-    fetch_ultimatum_from_user "Are you sure about this? ${YELLOW}Y/N${RESET}"
-    if [ $? -ne 0 ]; then
-        echo; info_msg "Aborting action."
-        return 1
-    fi
-    check_safety_on
-    if [ $? -eq 0 ]; then
-        warning_msg "Safety is ${GREEN}ON${RESET}."\
-            "Connection with wireless access point will not be performed."
-        return 1
-    fi
-    disconnect_from_wireless_access_point
-    if [ $? -ne 0 ]; then
-        echo; warning_msg "Something went wrong."\
-            "Could not disconnect from wireless access point."
-        return 1
-    fi
-    return 0
-}
-
-function action_connect_to_wireless_access_point () {
-    echo; symbol_msg "${BLUE}$SCRIPT_NAME${RESET}" \
-        "${CYAN}Wireless Network Gateways (Radios)${RESET}"
-    info_msg "Discovering wireless network access points..."; echo
-    TARGET_ESSID=`fetch_wireless_essid_from_user`
-    if [ $? -ne 0 ]; then
-        return 1
-    fi
-    SANITIZED=`echo $TARGET_ESSID | sed 's/\"//g'`
-    check_essid_password_protected "$SANITIZED"
-    EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 0 ]; then
-        PASSWORD=`fetch_wireless_password_from_user "$SANITIZED"`
-        echo "
-        "; check_safety_on
-        if [ $? -eq 0 ]; then
-            warning_msg "Safety is ${GREEN}ON${RESET}."\
-                "Connection with wireless access point will not be performed."
-        fi
-        connect_to_wireless_access_point "password-on" "$SANITIZED" "$PASSWORD"
-        if [ $? -ne 0 ]; then
-            echo; warning_msg "Something went wrong."\
-                "Could not connect to protected wireless access point"\
-                "${RED}$SANITIZED${RESET}."
-            return 1
-        fi
-        action_journal_entry "Connected to protected"\
-            "wireless access point $SANITIZED."
-    elif [ $EXIT_CODE -eq 1 ]; then
-        echo; check_safety_on
-        if [ $? -eq 0 ]; then
-            warning_msg "Safety is ${GREEN}ON${RESET}."\
-                "Connection with wireless access point will not be performed."
-            return 1
-        fi
-        connect_to_wireless_access_point "password-off" "$SANITIZED" "$PASSWORD"
-        if [ $? -ne 0 ]; then
-            echo; warning_msg "Something went wrong."\
-                "Could not connect to unprotected wireless access point"\
-                "${RED}$SANITIZED${RESET}."
-            return 1
-        fi
-    else
-        echo; warning_msg "Could not determine if wireless network"\
-            "${RED}$SANITIZED${RESET} is password protected."
-        return 1
-    fi
-    return 0
-}
-
-function action_display_available_wireless_access_points () {
-    echo; info_msg "Discovering wireless network access points..."
-    display_available_wireless_access_points
-    if [ $? -ne 0 ]; then
-        echo; warning_msg "Something went wrong."\
-            "Could not display wireless access points."
-        return 1
-    fi
     return 0
 }
 

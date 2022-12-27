@@ -4,6 +4,50 @@
 #
 # FORMATTERS
 
+function format_flowctrl_cargo_action_pause_args() {
+    local ARGUMENTS=( "--pause" `format_flowctrl_cargo_constant_args` )
+    echo -n ${ARGUMENTS[@]}
+    return $?
+}
+
+function format_flowctrl_cargo_action_resume_args() {
+    local ARGUMENTS=( "--resume" `format_flowctrl_cargo_constant_args` )
+    echo -n ${ARGUMENTS[@]}
+    return $?
+}
+
+function format_flowctrl_cargo_action_stop_args() {
+    local ARGUMENTS=( "--stop" `format_flowctrl_cargo_constant_args` )
+    echo -n ${ARGUMENTS[@]}
+    return $?
+}
+
+function format_flowctrl_cargo_action_purge_args() {
+    local ARGUMENTS=( "--purge" `format_flowctrl_cargo_constant_args` )
+    echo -n ${ARGUMENTS[@]}
+    return $?
+}
+
+function format_flowctrl_cargo_action_start_args() {
+    local SKETCH_FILE_PATH="$1"
+    local ARGUMENTS=(
+        "--start"
+        "--sketch-file ${SKETCH_FILE_PATH}"
+        `format_flowctrl_cargo_constant_args`
+    )
+    echo -n ${ARGUMENTS[@]}
+    return $?
+}
+
+function format_flowctrl_cargo_constant_args() {
+    local ARGUMENTS=(
+        "--log-file ${MD_DEFAULT['log-file']}"
+        "--config-file ${MD_DEFAULT['conf-json-file']}"
+    )
+    echo -n "${ARGUMENTS[@]}"
+    return $?
+}
+
 function format_lan_scan () {
     lan_scan | column -t > ${MD_DEFAULT['tmp-file']}
     local COUNT=1

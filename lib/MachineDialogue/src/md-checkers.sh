@@ -4,6 +4,14 @@
 #
 # CHECKERS
 
+function check_fifo_exists () {
+    local FIFO_PATH="$1"
+    if [ ! -p "$FIFO_PATH" ]; then
+        return 1
+    fi
+    return 0
+}
+
 function check_valid_wireless_interface () {
     local WIRELESS_INTERFACE="$1"
     WIFI_INTERFACES=( `fetch_all_wireless_interfaces` )
@@ -151,8 +159,8 @@ function check_file_has_number_of_lines () {
 }
 
 function check_internet_access () {
-    local ADDRESS="$1"
-    ping -c 1 $ADDRESS 2> /dev/null
+    local ADDRESS="${1:-google.com}"
+    ping -c 1 "$ADDRESS" &> /dev/null
     return $?
 }
 
@@ -220,8 +228,9 @@ function check_controller_option_exists () {
     VALID_MENU_OPTIONS=(
         `fetch_all_menu_controller_options "$MENU_CONTROLLER_LABEL"`
     )
-    debug_msg "Valid menu options detected:"\
-        "${YELLOW}${VALID_MENU_OPTIONS[@]}${RESET}"
+    # TODO - The following log message may lead to log spam
+#   debug_msg "Valid menu options detected:"\
+#       "${YELLOW}${VALID_MENU_OPTIONS[@]}${RESET}"
     check_item_in_set "$MENU_CONTROLLER_OPTION_LABEL" ${VALID_MENU_OPTIONS[@]}
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
@@ -253,8 +262,9 @@ function check_string_matches_regex_pattern () {
 function check_menu_controller_exists () {
     local MENU_CONTROLLER_LABEL="$1"
     VALID_MENU_CONTROLLERS=( `fetch_menu_controllers` )
-    debug_msg "Valid menu controllers detected:"\
-        "${YELLOW}${VALID_MENU_CONTROLLERS[@]}${RESET}"
+    # TODO - The following log message may lead to log spam
+#   debug_msg "Valid menu controllers detected:"\
+#       "${YELLOW}${VALID_MENU_CONTROLLERS[@]}${RESET}"
     check_item_in_set "$MENU_CONTROLLER_LABEL" ${VALID_MENU_CONTROLLERS[@]}
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
@@ -270,8 +280,9 @@ function check_menu_controller_exists () {
 function check_valid_action_key () {
     local ACTION_KEY="$1"
     VALID_ACTION_KEYS=( `fetch_action_keys` )
-    debug_msg "Valid action keys detected:"\
-        "${YELLOW}${VALID_ACTION_KEYS[@]}${RESET}"
+    # TODO - The following log message may lead to log spam
+#   debug_msg "Valid action keys detected:"\
+#       "${YELLOW}${VALID_ACTION_KEYS[@]}${RESET}"
     check_item_in_set "$ACTION_KEY" ${VALID_ACTION_KEYS[@]}
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then

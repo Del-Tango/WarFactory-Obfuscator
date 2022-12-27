@@ -20,9 +20,24 @@ function load_cargo () {
     return 0
 }
 
+
+function load_apt_dependencies () {
+    DEPENDENCIES=( $@ )
+    update_apt_dependencies ${DEPENDENCIES[@]}
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ]; then
+        nok_msg "Something went wrong."\
+            "Could not load APT dependecies (${RED}${DEPENDENCIES[@]}${RESET})."
+    else
+        ok_msg "Successfully loaded"\
+            "APT dependencies (${GREEN}${DEPENDENCIES[@]}${RESET})."
+    fi
+    return $EXIT_CODE
+}
+
 function load_pip_dependencies () {
-    local DEPENDENCIES=( $@ )
-    if [ ${#DEPENDENIES[@]} -eq 0 ]; then
+    DEPENDENCIES=( $@ )
+    if [ ${#DEPENDENCIES[@]} -eq 0 ]; then
         warning_msg "No PIP dependencies found."
         return 1
     fi
@@ -39,8 +54,8 @@ function load_pip_dependencies () {
 }
 
 function load_pip3_dependencies () {
-    local DEPENDENCIES=( $@ )
-    if [ ${#DEPENDENIES[@]} -eq 0 ]; then
+    DEPENDENCIES=( $@ )
+    if [ ${#DEPENDENCIES[@]} -eq 0 ]; then
         warning_msg "No PIP3 dependencies found."
         return 1
     fi

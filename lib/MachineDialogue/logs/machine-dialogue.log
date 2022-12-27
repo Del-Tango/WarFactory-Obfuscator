@@ -1,1 +1,52 @@
-Sun 14 Mar 18:59:36 EET 2021
+Thu Jun 17 21:47:08 EEST 2021
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [34mMachineDialogue[m ]: [36mLocked and Loaded![m
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded script name [32mWarFactory[m
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded prompt string ([32mWarFactory> [m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded safety flag value ([32moff[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32msilent - off[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mdox-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/dox[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlanguage - python[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mtmp-dir - /tmp[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mdmp-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/dump[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mtarget-file - /home/smx093pk01/Projects/WarFactory-Obfuscator/dump/wf_python_parser.py[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mconf-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/conf[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlog-lines - 100[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlib-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/lib[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlog-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/logs[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mreport-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/reports[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32msrc-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/src[m).
+[35mTue Dec 27 06:36:13 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mreport - on[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [34mMachineDialogue[m ]: [36mLocked and Loaded![m
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded script name [32mWarFactory[m
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded prompt string ([32mWarFactory> [m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded safety flag value ([32moff[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32msilent - off[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mdox-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/dox[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlanguage - python[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mtmp-dir - /tmp[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mdmp-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/dump[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mtarget-file - /home/smx093pk01/Projects/WarFactory-Obfuscator/dump/wf_python_parser.py[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mconf-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/conf[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlog-lines - 100[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlib-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/lib[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlog-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/logs[m).
+[35mTue Dec 27 06:37:46 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mreport-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/reports[m).
+[35mTue Dec 27 06:37:47 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32msrc-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/src[m).
+[35mTue Dec 27 06:37:47 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mreport - on[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [34mMachineDialogue[m ]: [36mLocked and Loaded![m
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded script name [32mWarFactory[m
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded prompt string ([32mWarFactory> [m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded safety flag value ([32moff[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32msilent - off[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mdox-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/dox[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlanguage - python[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mtmp-dir - /tmp[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mdmp-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/dump[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mtarget-file - /home/smx093pk01/Projects/WarFactory-Obfuscator/dump/wf_python_parser.py[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mconf-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/conf[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlog-lines - 100[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlib-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/lib[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mlog-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/logs[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mreport-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/reports[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32msrc-dir - /home/smx093pk01/Projects/WarFactory-Obfuscator/src[m).
+[35mTue Dec 27 06:44:31 PM EST 2022[m - [ [32mOK[m ]: Successfully loaded [34mWarFactory[m default setting ([32mreport - on[m).

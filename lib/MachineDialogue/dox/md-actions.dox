@@ -3,6 +3,8 @@
 cat<<EOF
 # MachineDialogue - (ACTIONS)
 
+action_install_dependencies
+action_help
 action_back
 action_clear_log_file
 action_log_view_tail

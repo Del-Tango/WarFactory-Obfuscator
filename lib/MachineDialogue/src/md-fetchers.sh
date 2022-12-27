@@ -4,6 +4,82 @@
 #
 # FETCHERS
 
+function fetch_number_from_user() {
+    PROMPT_STR="${1:-Number}"
+    INT_DATA=''
+    while :; do
+        INT_DATA=`fetch_data_from_user "$PROMPT_STR"`
+        if [ $? -ne 0 ]; then
+            return 1
+        fi
+        check_value_is_number $INT_DATA
+        if [ $? -ne 0 ]; then
+            debug_msg "Value must be a number, not (${RED}$INT_DATA${RESET})."
+            echo; continue
+        fi; break
+    done
+    echo $INT_DATA
+    return $?
+}
+
+function fetch_password_from_user() {
+    PROMPT_STR="${1:-Password}"
+    PASS_DATA=`fetch_data_from_user "$PROMPT_STR" 'password'`
+    if [ $? -ne 0 ]; then
+        return 1
+    fi
+    echo $PASS_DATA
+    return $?
+}
+
+function fetch_string_from_user() {
+    PROMPT_STR="${1:-String}"
+    STR_DATA=`fetch_data_from_user "$PROMPT_STR"`
+    if [ $? -ne 0 ]; then
+        return 1
+    fi
+    echo $STR_DATA
+    return $?
+}
+
+function fetch_directory_from_user() {
+    PROMPT_STR="${1:-DirPath}"
+    DIR_PATH=''
+    while :; do
+        DIR_PATH=`fetch_data_from_user "$PROMPT_STR"`
+        if [ $? -ne 0 ]; then
+            return 1
+        fi
+        check_directory_exists "$DIR_PATH"
+        if [ $? -ne 0 ]; then
+            debug_msg "File (${RED}$DIR_PATH${RESET}) does not exists."
+            continue
+        fi; break
+    done
+    echo $DIR_PATH
+    return $?
+}
+
+function fetch_file_path_from_user() {
+#   [ NOTE ]: Wrapper that also validates the file path.
+    PROMPT_STR="${1:-FilePath}"
+    FILE_PATH=''
+    while :; do
+        FILE_PATH=`fetch_data_from_user "$PROMPT_STR"`
+        if [ $? -ne 0 ]; then
+            return 1
+        fi
+        check_file_exists "$FILE_PATH"
+        if [ $? -ne 0 ]; then
+            warning_msg "File (${RED}$FILE_PATH${RESET}) does not exists.
+            "
+            continue
+        fi; break
+    done
+    echo $FILE_PATH
+    return $?
+}
+
 function fetch_all_available_block_devices () {
     AVAILABLE_DEVS=(
         `lsblk | \
@@ -145,7 +221,7 @@ function fetch_wireless_interface_from_user () {
 }
 
 function fetch_external_ipv4_address () {
-    check_internet_access
+    check_internet_access "${MD_DEFAULT['check-internet-access']}"
     if [ $? -ne 0 ]; then
         warning_msg "No internet access!"
         return 1
@@ -455,9 +531,10 @@ function fetch_selection_from_user () {
 }
 
 function fetch_menu_controllers_with_extended_banner () {
-    debug_msg "Detected (${WHITE}${#MD_CONTROLLER_BANNERS[@]}${RESET})"\
-        "controllers with extended banners:"\
-        "${YELLOW}${!MD_CONTROLLER_BANNERS[@]}${RESET}"
+    # TODO - Following log message may lead to log spam
+#   debug_msg "Detected (${WHITE}${#MD_CONTROLLER_BANNERS[@]}${RESET})"\
+#       "controllers with extended banners:"\
+#       "${YELLOW}${!MD_CONTROLLER_BANNERS[@]}${RESET}"
     echo ${!MD_CONTROLLER_BANNERS[@]}
     return $?
 }
@@ -498,8 +575,9 @@ function fetch_jump_keys () {
 }
 
 function fetch_action_keys () {
-    debug_msg "Detected (${WHITE}${#MD_CONTROLLER_OPTION_KEYS[@]}${RESET})"\
-        "option keys: ${YELLOW}${!MD_CONTROLLER_OPTION_KEYS[@]}${RESET}."
+    # TODO - Following log message may lead to log spam
+#   debug_msg "Detected (${WHITE}${#MD_CONTROLLER_OPTION_KEYS[@]}${RESET})"\
+#       "option keys: ${YELLOW}${!MD_CONTROLLER_OPTION_KEYS[@]}${RESET}."
     if [ ${#MD_CONTROLLER_OPTION_KEYS[@]} -eq 0 ]; then
         error_msg "No ${BLUE}$SCRIPT_NAME${RESET}"\
             "${RED}action keys${RESET} found."
@@ -514,8 +592,9 @@ function fetch_all_menu_controller_options () {
     CONTROLLER_OPTIONS=(
         `echo "${MD_CONTROLLER_OPTIONS[$MENU_CONTROLLER_LABEL]}" | tr ',' ' '`
     )
-    debug_msg "Controller: ${CYAN}$MENU_CONTROLLER_LABEL${RESET},"\
-        "Options: ${YELLOW}${CONTROLLER_OPTIONS[@]}${RESET}."
+    # TODO - Following log message may lead to log spam
+#   debug_msg "Controller: ${CYAN}$MENU_CONTROLLER_LABEL${RESET},"\
+#       "Options: ${YELLOW}${CONTROLLER_OPTIONS[@]}${RESET}."
     echo "${CONTROLLER_OPTIONS[@]}"
     return $?
 }

@@ -16,7 +16,8 @@ from wf_scrambler.wf_python_scrambler import WFPythonScrambler
 # SETUP FIELDS
 
 SCRIPT_NAME = 'WarFactory'
-VERSION = 'Citadel Station'
+VERSION = 'CitadelStation'
+VERSION_NO = '1.0'
 LOG_FILE_PATH = ''
 LOG_FORMAT = '[ %(asctime)s ] %(name)s [ %(levelname)s ] - %(filename)s - '\
     '%(lineno)d: %(funcName)s - %(message)s'
@@ -116,7 +117,6 @@ def check_dazzle_reports_flag_on():
     ))
     return GENERATE_REPORTS == 'on'
 
-# UPDATERS
 # CREATORS
 
 def create_file(file_path, content=''):
@@ -130,6 +130,7 @@ def create_file(file_path, content=''):
 
 def create_command_line_parser():
     log.debug('')
+    display_header()
     parser = optparse.OptionParser(
         '%prog \ \n'
         '   -f <file-path                            value-(/file/path1.py,/file/path2.py)> \\\n'
@@ -140,7 +141,7 @@ def create_command_line_parser():
         '   -s <silent-stdout-flag                   value-(on | off)> \\\n'
         '   -r <report-flag                          value-(on | off)> \\\n'
         '   -S <safety-flag                          value-(on | off)> \\\n'
-        '   -y <yes-flag                             value-(on | off)>'
+        '   -y <yes-flag                             value-(on | off)> '
     )
     return parser
 
@@ -396,39 +397,39 @@ def search_python_files_in_directory(path):
 def add_command_line_parser_options(parser):
     parser.add_option(
         '-S', dest='safety_flag', type='string',
-        help='{} safety flag (on | off).'.format(SCRIPT_NAME)
+        help='{} safety flag (on | off).\n'.format(SCRIPT_NAME)
     )
     parser.add_option(
         '-s', dest='silent_flag', type='string',
-        help='STDOUT silence flag (on | off).'
+        help='STDOUT silence flag (on | off).\n'
     )
     parser.add_option(
         '-r', dest='report_flag', type='string',
-        help='Dazzle report generator flag (on | off).'
+        help='Dazzle report generator flag (on | off).\n'
     )
     parser.add_option(
         '-f', dest='file_path', type='string',
-        help='Python file to dazzle.'
+        help='Python file to dazzle.\n'
     )
     parser.add_option(
         '-d', dest='directory_path', type='string',
-        help='Directory in which to search for python files to dazzle.'
+        help='Directory in which to search for python files to dazzle.\n'
     )
     parser.add_option(
         '-l', dest='log_file_path', type='string',
-        help='{} log file path.'.format(SCRIPT_NAME)
+        help='{} log file path.\n'.format(SCRIPT_NAME)
     )
     parser.add_option(
         '-L', dest='language', type='string',
-        help='Programming language.'
+        help='Programming language.\n'
     )
     parser.add_option(
         '-R', dest='report_directory', type='string',
-        help='{} dazzle report directory.'.format(SCRIPT_NAME)
+        help='{} dazzle report directory.\n'.format(SCRIPT_NAME)
     )
     parser.add_option(
         '-y', dest='yes', type='string',
-        help='YES - Switch for automatic user commit.'
+        help='YES - Switch for automatic user commit.\n'
     )
     return parser
 
@@ -531,8 +532,6 @@ def handle_python_file_obfuscate(file_path, parser, scrambler):
     ))
     return True
 
-# ACTIONS
-
 # DISPLAY
 
 def display_header():
@@ -540,9 +539,9 @@ def display_header():
 ____________________________________________________________________________
 
  *            *           *      {}     *           *            *
-____________________________________________________v.{}_______
-                   Regards, the Alveare Solutions society.
-    '''.format(SCRIPT_NAME, VERSION))
+____________________________________________________v.{}{}_____
+           Excellent Regards, the Alveare Solutions #!/Society -x
+    '''.format(SCRIPT_NAME, VERSION_NO, VERSION))
     return True
 
 # INIT

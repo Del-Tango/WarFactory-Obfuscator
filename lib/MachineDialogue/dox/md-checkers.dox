@@ -3,6 +3,7 @@
 cat<<EOF
 # MachineDialogue - (CHECKERS)
 
+check_fifo_exists                   <named-pipe-path>
 check_apt_dependency_set            <dependancy-package>
 check_required_privileges
 check_function_is_defined           <function-name>

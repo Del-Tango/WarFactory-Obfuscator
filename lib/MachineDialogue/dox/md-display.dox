@@ -3,6 +3,8 @@
 cat<<EOF
 # MachineDialogue - (DISPLAY)
 
+display_loading_message                     <wait-time unit-(seconds)> <static-loading-message>
+display_script_banner                       <clear-flag optional-(True) values-(clear-screen-on | clear-screen-off) default-(clear-screen-on)>
 display_settings
 debug_msg                                   <message>
 done_msg                                    <message>

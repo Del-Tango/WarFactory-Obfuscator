@@ -3,6 +3,11 @@
 cat<<EOF
 # MachineDialogue - (GENERAL)
 
+remove_system_group                             <group-name>
+add_system_user_to_group                        <user-name> <group-name>
+filter_file_content                             <file-path> <start-pattern> <stop-pattern>
+remove_system_user                              <user-name>
+update_apt_dependencies                         <package1> <package2> ...
 add_apt_dependency                              <dependency-package>
 remove_apt_dependency                           <dependency-package>
 bind_controller_option_to_menu                  <menu-controller> <controller-option> <controller>
@@ -38,5 +43,11 @@ shred_directory                                 <dir-path>
 shred_file                                      <file-path>
 update_pip3_dependencies                        <item1> <item2> ...
 update_pip_dependencies                         <item1> <item2> ...
+flowctrl_start                                  <json-sketch-file> <daemon-flag values(0|1)>
+flowctrl_pause
+flowctrl_resume
+flowctrl_stop
+flowctrl_purge
+
 
 EOF

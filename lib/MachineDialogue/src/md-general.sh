@@ -4,14 +4,156 @@
 #
 # GENERAL
 
+function flowctrl_start() {
+    local JSON_FILE_PATH="$1"
+    local BACKGROUND=${2:-0}
+    local ARGUMENTS=(
+        `format_flowctrl_cargo_action_start_args ${JSON_FILE_PATH}`
+    )
+    local COMMAND="${MD_CARGO['flow-ctrl']} ${ARGUMENTS[@]}"
+    if [[ ${BACKGROUND} -ne 0 ]]; then
+        local COMMAND="${COMMAND} &> /dev/null &"
+    fi
+    ${COMMAND}
+    return $?
+}
+
+function flowctrl_pause() {
+    local ARGUMENTS=( `format_flowctrl_cargo_action_pause_args` )
+    ${MD_CARGO['flow-ctrl']} ${ARGUMENTS[@]}
+    return $?
+}
+
+function flowctrl_resume() {
+    local ARGUMENTS=( `format_flowctrl_cargo_action_resume_args` )
+    ${MD_CARGO['flow-ctrl']} ${ARGUMENTS[@]}
+    return $?
+}
+
+function flowctrl_stop() {
+    local ARGUMENTS=( `format_flowctrl_cargo_action_stop_args` )
+    ${MD_CARGO['flow-ctrl']} ${ARGUMENTS[@]}
+    return $?
+}
+
+function flowctrl_purge() {
+    local ARGUMENTS=( `format_flowctrl_cargo_action_purge_args` )
+    ${MD_CARGO['flow-ctrl']} ${ARGUMENTS[@]}
+    return $?
+}
+
+function connect_to_wireless_access_point () {
+    local CONNECTION_MODE="$1"
+    local TARGET_ESSID="$2"
+    local WIFI_PASSWORD="$3"
+    check_safety_off
+    if [ $? -ne 0 ]; then
+        return 0
+    fi
+    case "$CONNECTION_MODE" in
+        'password-on')
+            ${MD_CARGO['wifi-commander']} \
+                "$CONF_FILE_PATH" \
+                '--connect-pass' "$TARGET_ESSID" "$WIFI_PASSWORD"
+            ;;
+        'password-off')
+            ${MD_CARGO['wifi-commander']} \
+                "$CONF_FILE_PATH" \
+                '--connect-without-pass' "$TARGET_ESSID"
+            ;;
+        *)
+            echo; info_msg "No connection mode specified,"\
+                "defaulting to password protected."
+            ${MD_CARGO['wifi-commander']} \
+                "$CONF_FILE_PATH" \
+                '--connect-pass' "$TARGET_ESSID" "$WIFI_PASSWORD"
+            ;;
+    esac
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ]; then
+        set_connected_essid "$TARGET_ESSID"
+    fi
+    return $EXIT_CODE
+}
+
+function disconnect_from_wireless_access_point () {
+    check_safety_off
+    if [ $? -ne 0 ]; then
+        return 0
+    fi
+    wpa_cli terminate &> /dev/null
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ]; then
+        set_connected_essid "Unconnected"
+    fi
+    return $EXIT_CODE
+}
+
+function remove_system_group () {
+    local GROUP_NAME="$1"
+    check_safety_off
+    if [ $? -ne 0 ]; then
+        warning_msg "${GREEN}$SCRIPT_NAME${RESET} safety is"\
+            "(${GREEN}ON${RESET}). System group (${YELLOW}$GROUP_NAME${RESET})"\
+            "is not beeing removed."
+    else
+        groupdel "$GROUP_NAME" &> /dev/null
+        return $?
+    fi
+    return 1
+}
+
+function add_system_user_to_group () {
+    local USER_NAME="$1"
+    local GROUP_NAME="$2"
+    check_safety_off
+    if [ $? -ne 0 ]; then
+        warning_msg "${GREEN}$SCRIPT_NAME${RESET} safety is"\
+            "(${GREEN}ON${RESET}). System user (${YELLOW}$USER_NAME${RESET})"\
+            "is not beeing added to group (${YELLOW}$GROUP_NAME${RESET})."
+    else
+        usermod -G "$GROUP_NAME" "$USER_NAME" &> /dev/null
+        return $?
+    fi
+    return 1
+}
+
+function filter_file_content () {
+    local FILE_PATH="$1"
+    local START_PATTERN="$2"
+    local STOP_PATTERN="$3"
+    awk "/${START_PATTERN}/ {p=1}; p; /${STOP_PATTERN}/ {p=0}" "$FILE_PATH" 2> /dev/null
+    return $?
+}
+
+function remove_system_user () {
+    local USER_NAME="$1"
+    check_safety_off
+    if [ $? -ne 0 ]; then
+        warning_msg "${GREEN}$SCRIPT_NAME${RESET} safety is"\
+            "(${GREEN}ON${RESET}). System user (${YELLOW}$USER_NAME${RESET})"\
+            "is not beeing removed."
+    else
+        deluser "$USER_NAME" &> /dev/null
+        return $?
+    fi
+    return 1
+}
+
+function update_apt_dependencies () {
+    DEPENDENCIES=( $@ )
+    MD_APT_DEPENDENCIES=( ${MD_APT_DEPENDENCIES[@]} ${DEPENDENCIES[@]} )
+    return 0
+}
+
 function update_pip_dependencies () {
-    local DEPENDENCIES=( $@ )
+    DEPENDENCIES=( $@ )
     MD_PIP_DEPENDENCIES=( ${MD_PIP_DEPENDENCIES[@]} ${DEPENDENCIES[@]} )
     return 0
 }
 
 function update_pip3_dependencies () {
-    local DEPENDENCIES=( $@ )
+    DEPENDENCIES=( $@ )
     MD_PIP3_DEPENDENCIES=( ${MD_PIP3_DEPENDENCIES[@]} ${DEPENDENCIES[@]} )
     return 0
 }
@@ -27,59 +169,6 @@ function lan_scan () {
         ) &
     done; sleep 1
     return 0
-}
-
-function connect_to_wireless_access_point () {
-    local CONNECTION_MODE="$1"
-    local TARGET_ESSID="$2"
-    local WIFI_PASSWORD="$3"
-    check_safety_off
-    if [ $? -ne 0 ]; then
-        warning_msg "${GREEN}$SCRIPT_NAME${RESET}"\
-            "safety is (${GREEN}ON${RESET})."\
-            "Machine will not be connecting network."
-        return 0
-    fi
-    case "$CONNECTION_MODE" in
-        'password-on')
-            ${MD_CARGO['wifi-commander']} \
-                "$CONF_FILE_PATH" \
-                --connect-pass "$TARGET_ESSID" "$WIFI_PASSWORD"
-            ;;
-        'password-off')
-            ${MD_CARGO['wifi-commander']} \
-                "$CONF_FILE_PATH" \
-                --connect-without-pass "$TARGET_ESSID"
-            ;;
-        *)
-            echo; info_msg "No connection mode specified,"\
-                "defaulting to password protected."
-            ${MD_CARGO['wifi-commander']} \
-                "$CONF_FILE_PATH" \
-                --connect-pass "$TARGET_ESSID" "$WIFI_PASSWORD"
-            ;;
-    esac
-    EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 0 ]; then
-        set_connected_essid "$TARGET_ESSID"
-    fi
-    return $EXIT_CODE
-}
-
-function disconnect_from_wireless_access_point () {
-    check_safety_off
-    if [ $? -ne 0 ]; then
-        echo; warning_msg "${GREEN}$SCRIPT_NAME${RESET}"\
-            "safety is (${GREEN}ON${RESET})."\
-            "Machine will not be disconnecting from network."
-        return 0
-    fi
-    wpa_cli terminate &> /dev/null
-    EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 0 ]; then
-        set_connected_essid "Unconnected"
-    fi
-    return $EXIT_CODE
 }
 
 function shred_directory () {
@@ -157,7 +246,7 @@ function remove_directory () {
         echo; error_msg "Invalid directory path ${RED}$DIR_PATH${RESET}."
         return 1
     fi
-    find "$DIR_PATH" -type f | xargs shred f -n 10 -z -u &> /dev/null
+#   find "$DIR_PATH" -type f | xargs shred -f -n 10 -z -u &> /dev/null
     rm -rf "$DIR_PATH" &> /dev/null
     return $?
 }
@@ -215,7 +304,7 @@ function write_to_file () {
     if [ $? -ne 0 ]; then
         echo; error_msg "File (${RED}$FILE_PATH${RESET}) does not exist."
         echo; return 1
-    elif [ -z $CONTENT ]; then
+    elif [ -z "$CONTENT" ]; then
         echo; warning_msg "No content specified."
         echo; return 2
     fi
@@ -288,7 +377,7 @@ function trap_signals () {
 
 function trap_interrupt_signal () {
     local COMMAND_STRING="$@"
-    trap_signals "$COMMAND_STRING" "SIGING"
+    trap_signals "$COMMAND_STRING" "SIGINT"
     return 0
 }
 
@@ -354,19 +443,20 @@ function bind_controller_option_to_menu () {
             "not found."
         return 3
     fi
-    debug_msg "Confirmed bind target menu controller"\
-        "${GREEN}$MENU_RESOURCE${RESET} exists."
+    # TODO - WARNING - Following debug messages may lead to log spam
+#   debug_msg "Confirmed bind target menu controller"\
+#       "${GREEN}$MENU_RESOURCE${RESET} exists."
     CONTROLLER_JUMP_KEY=`format_menu_controller_jump_key \
         "$MENU_CONTROLLER" "$MENU_OPTION"`
-    debug_msg "${CYAN}$MENU_CONTROLLER${RESET} controller jump key is"\
-        "${GREEN}$CONTROLLER_JUMP_KEY${RESET}."
+#   debug_msg "${CYAN}$MENU_CONTROLLER${RESET} controller jump key is"\
+#       "${GREEN}$CONTROLLER_JUMP_KEY${RESET}."
     NEXT_MENU_OPTIONS=( `fetch_all_menu_controller_options "$MENU_CONTROLLER"` )
-    debug_msg "${CYAN}$MENU_CONTROLLER${RESET} options are"\
-        "${YELLOW}${NEXT_MENU_OPTIONS[@]}${RESET}."
+#   debug_msg "${CYAN}$MENU_CONTROLLER${RESET} options are"\
+#       "${YELLOW}${NEXT_MENU_OPTIONS[@]}${RESET}."
     FUNCTION_RESOURCE=`format_menu_controller_jumper_function_resource \
         "$MENU_RESOURCE"`
-    debug_msg "Function resource for controller option"\
-        "${YELLOW}$MENU_OPTION${RESET} is ${GREEN}$FUNCTION_RESOURCE${RESET}."
+#   debug_msg "Function resource for controller option"\
+#       "${YELLOW}$MENU_OPTION${RESET} is ${GREEN}$FUNCTION_RESOURCE${RESET}."
     set_menu_controller_action_key "$CONTROLLER_JUMP_KEY" "$FUNCTION_RESOURCE"
     EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
