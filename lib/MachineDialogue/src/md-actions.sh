@@ -18,8 +18,8 @@ function action_display_available_wireless_access_points () {
 function action_disconnect_from_wireless_access_point () {
     echo; info_msg "You are about to disconnect from wireless network."
     fetch_ultimatum_from_user "Are you sure about this? ${YELLOW}Y/N${RESET}"
-    echo; if [ $? -ne 0 ]; then
-        info_msg "Aborting action."
+    if [ $? -ne 0 ]; then
+        echo; info_msg "Aborting action."
         return 1
     fi
     check_safety_on
@@ -505,6 +505,11 @@ function action_self_destruct () {
     fi
     echo; warning_msg "Initiating (${BLUE}$SCRIPT_NAME${RESET})"\
         "self destruct sequence!"
+    fetch_ultimatum_from_user "Are you sure about this? ${YELLOW}Y/N${RESET}"
+    if [ $? -ne 0 ]; then
+        echo; info_msg "Aborting action."
+        return 0
+    fi
     self_destruct
     return $?
 }
