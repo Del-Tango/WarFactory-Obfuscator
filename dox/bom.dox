@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# Excellent Regards, the Alveare Solutions #!/Society -x
+#
+# Action Bills of Materials
+
+cat <<EOF
+   ____________________________________________________________________________
+
+   *            *           *      WarFactory     *           *            *
+   ____________________________________________________v.1.0CitadelStation_____
+               Excellent Regards, the Alveare Solutions #!/Society -x
+
+    [ BOM ]: Action bills of materials -
+
+    wfvcsswf      ,Start-War-Factory       ,(*) -> (1) -> (1 + y|n)
+    wfvcsvdzlr    ,View-Dazzle-Reports     ,(*) -> (1) -> (2) -> (<dazzle-report>)
+    wfvcssdt      ,Self-Destruct           ,(*) -> (2 + y)
+    wfvcsldt      ,Display-Tail            ,(*) -> (3) -> (1)
+    wfvcsldh      ,Display-Head            ,(*) -> (3) -> (2)
+    wfvcsldm      ,Display-More            ,(*) -> (3) -> (3)
+    wfvcslcl      ,Clear-Log               ,(*) -> (3) -> (4)
+    wfvcsssafon   ,Set-Safety-ON           ,(*) -> (4) -> (1  + y)
+    wfvcsssafof   ,Set-Safety-OFF          ,(*) -> (4) -> (2  + y)
+    wfvcsssilon   ,Set-Silent-ON           ,(*) -> (4) -> (3  + y)
+    wfvcsssilof   ,Set-Silent-OFF          ,(*) -> (4) -> (4  + y)
+    wfvcssron     ,Set-Report-ON           ,(*) -> (4) -> (5  + y)
+    wfvcssrof     ,Set-Report-OFF          ,(*) -> (4) -> (6  + y)
+    wfvcssacon    ,Set-AutoCommit-ON       ,(*) -> (4) -> (7  + y)
+    wfvcssacof    ,Set-AutoCommit-OFF      ,(*) -> (4) -> (8  + y)
+    wfvcsstmpf    ,Set-Temporary-File      ,(*) -> (4) -> (9  + <file-path>)
+    wfvcsslf      ,Set-Log-File            ,(*) -> (4) -> (10 + <file-path>)
+    wfvcssll      ,Set-Log-Lines           ,(*) -> (4) -> (11 + <line-number>)
+    wfvcssrd      ,Set-Report-Directory    ,(*) -> (4) -> (12 + <dir-path>)
+    wfvcssfe      ,Set-File-Editor         ,(*) -> (4) -> (13 + <editor-name>)
+    wfvcsstf      ,Set-Target-File         ,(*) -> (4) -> (14 + <file-path>)
+    wfvcsstd      ,Set-Target-Directory    ,(*) -> (4) -> (15 + <dir-path>)
+    wfvcssl       ,Set-Language            ,(*) -> (4) -> (16 + <programming-language>)
+    wfvcsedp      ,Edit-Directory-Paths    ,(*) -> (4) -> (17)
+    wfvcsefp      ,Edit-File-Paths         ,(*) -> (4) -> (18)
+    wfvcsidp      ,Import-Directory-Paths  ,(*) -> (4) -> (19 + <file-path>)
+    wfvcsifp      ,Import-File-Paths       ,(*) -> (4) -> (20 + <file-path>)
+    wfvcsidep     ,Install-Dependencies    ,(*) -> (4) -> (21 + y)
+
+EOF
+
+exit $?
